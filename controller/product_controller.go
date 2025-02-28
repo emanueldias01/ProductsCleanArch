@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -27,7 +28,7 @@ func (c *ProductController) CreateProduct(ctx *gin.Context){
 	var product model.Product
 	if err := ctx.ShouldBindJSON(&product); err != nil{
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Message" : err,
+			"Message" : err.Error(),
 		})
 		return
 	}
@@ -35,8 +36,9 @@ func (c *ProductController) CreateProduct(ctx *gin.Context){
 	model, err := c.usecase.CreateProduct(product)
 
 	if err != nil{
+		fmt.Println(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Message" : err,
+			"Message" : err.Error(),
 		})
 		return
 	}
@@ -49,7 +51,7 @@ func (c *ProductController) GetProductById(ctx *gin.Context){
 
 	if err != nil{
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"Message" : err,
+			"Message" : err.Error(),
 		})
 		return
 	}
@@ -58,7 +60,7 @@ func (c *ProductController) GetProductById(ctx *gin.Context){
 
 	if err != nil{
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"Message" : err,
+			"Message" : err.Error(),
 		})
 		return
 	}
