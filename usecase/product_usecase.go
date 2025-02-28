@@ -51,6 +51,33 @@ func (u *ProductUseCase) GetProductById(id int) (model.Product, error){
 	return product, err
 }
 
+func (u *ProductUseCase) UpdateProduct(product model.Product) (model.Product, error) {
+	productDB, err := u.GetProductById(product.ID)
+	if err != nil {
+		return model.Product{}, err
+	}
+
+	if product.Price < 0 {
+		return model.Product{}, errors.New("invalid price")
+	}
+	if product.Quantity < 0 {
+		return model.Product{}, errors.New("invalid quantity")
+	}
+
+	if product.Name != "" {
+		productDB.Name = product.Name
+	}
+	if product.Price != 0 {
+		productDB.Price = product.Price
+	}
+	if product.Quantity != 0 {
+		productDB.Quantity = product.Quantity
+	}
+
+	return u.repository.UpdateProduct(productDB)
+}
+
+
 func (u *ProductUseCase) DeleteProduct(id int){
 	u.repository.DeleteProduct(id)
 }

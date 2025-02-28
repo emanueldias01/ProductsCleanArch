@@ -32,6 +32,15 @@ func (r *ProductRepository) FindProductById(id int) model.Product{
 	return product
 }
 
+func(r *ProductRepository) UpdateProduct(product model.Product) (model.Product, error){
+	var productDB model.Product
+	if err := r.conn.First(&productDB, product.ID).Error; err != nil{
+		return model.Product{}, err
+	}
+	r.conn.Save(&product)
+	return product, nil
+}
+
 func (r *ProductRepository) DeleteProduct(id int){
 	var product model.Product
 	r.conn.Delete(&product, id)

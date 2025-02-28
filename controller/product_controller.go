@@ -66,6 +66,28 @@ func (c *ProductController) GetProductById(ctx *gin.Context){
 	ctx.JSON(http.StatusOK, product)
 }
 
+func (c *ProductController) UpdateProduct(ctx *gin.Context) {
+	var product model.Product
+
+	if err := ctx.ShouldBindJSON(&product); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message": err.Error(),
+		})
+		return
+	}
+
+	model, err := c.usecase.UpdateProduct(product)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message": err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model)
+}
+
+
 func (c *ProductController) DeleteProduct(ctx *gin.Context){
 	id, err := strconv.Atoi(ctx.Params.ByName("id"))
 

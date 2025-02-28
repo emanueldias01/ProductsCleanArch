@@ -21,6 +21,7 @@ func (r *ProductRouter) AllRoutes(){
 	server.POST("/product", r.controller.CreateProduct)
 	server.GET("/product/:id", r.controller.GetProductById)
 	server.DELETE("/product/:id", r.controller.DeleteProduct)
+	server.PUT("/product", r.controller.UpdateProduct)
 
 	defer server.Run()
 }
