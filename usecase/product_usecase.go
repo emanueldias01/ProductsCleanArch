@@ -81,3 +81,19 @@ func (u *ProductUseCase) UpdateProduct(product model.Product) (model.Product, er
 func (u *ProductUseCase) DeleteProduct(id int){
 	u.repository.DeleteProduct(id)
 }
+
+func (u *ProductUseCase) SellProduct(id int) (model.Product, error){
+	product, err := u.GetProductById(id)
+
+	if err != nil{
+		return model.Product{}, err
+	}
+
+	if product.Quantity == 1{
+		u.DeleteProduct(id)
+		return product, nil
+	}
+
+	product.Quantity--
+	return u.UpdateProduct(product)
+}
