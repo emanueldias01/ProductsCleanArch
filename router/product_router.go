@@ -18,6 +18,7 @@ func NewProductRouter(c controller.ProductController) ProductRouter{
 func (r *ProductRouter) AllRoutes(){
 	server := gin.Default()
 	server.GET("/products", r.controller.GetProducts)
+	server.POST("/product", r.controller.CreateProduct)
 
 	defer server.Run()
 }

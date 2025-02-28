@@ -20,3 +20,8 @@ func(r *ProductRepository) GetProducts() []model.Product{
 	r.conn.Find(&products)
 	return products
 }
+
+func (r *ProductRepository) CreateProduct(product model.Product) model.Product{
+	r.conn.Save(&product)
+	return product
+}
