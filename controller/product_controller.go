@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -36,7 +35,6 @@ func (c *ProductController) CreateProduct(ctx *gin.Context){
 	model, err := c.usecase.CreateProduct(product)
 
 	if err != nil{
-		fmt.Println(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"Message" : err.Error(),
 		})
@@ -66,4 +64,20 @@ func (c *ProductController) GetProductById(ctx *gin.Context){
 	}
 
 	ctx.JSON(http.StatusOK, product)
+}
+
+func (c *ProductController) DeleteProduct(ctx *gin.Context){
+	id, err := strconv.Atoi(ctx.Params.ByName("id"))
+
+	if err != nil{
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message" : err.Error(),
+		})
+
+		return
+	}
+
+	c.usecase.DeleteProduct(id)
+
+	ctx.JSON(http.StatusNoContent, nil)
 }

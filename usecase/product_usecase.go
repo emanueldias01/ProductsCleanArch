@@ -31,6 +31,11 @@ func (u *ProductUseCase) CreateProduct(product model.Product) (model.Product, er
 	}
 	if product.Quantity < 0{
 		err = errors.New("invalid quantity")
+		
+	}
+
+	if err != nil{
+		return model.Product{}, err
 	}
 
 	return u.repository.CreateProduct(product), err
@@ -44,4 +49,8 @@ func (u *ProductUseCase) GetProductById(id int) (model.Product, error){
 	}
 
 	return product, err
+}
+
+func (u *ProductUseCase) DeleteProduct(id int){
+	u.repository.DeleteProduct(id)
 }

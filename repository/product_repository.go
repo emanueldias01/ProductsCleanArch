@@ -31,3 +31,8 @@ func (r *ProductRepository) FindProductById(id int) model.Product{
 	r.conn.First(&product, id)
 	return product
 }
+
+func (r *ProductRepository) DeleteProduct(id int){
+	var product model.Product
+	r.conn.Delete(&product, id)
+}
