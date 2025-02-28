@@ -12,11 +12,13 @@ var(
 	err error
 )
 
-func ConnectDB(){
+func ConnectDB() *gorm.DB{
 	strCon := "host=localhost user=postgres password=1234 dbname=postgres port=5432 sslmode=disable"
 	DB, err = gorm.Open(postgres.Open(strCon))
 
 	if err != nil{
 		log.Fatal(err.Error())
 	}
+
+	return DB
 }
