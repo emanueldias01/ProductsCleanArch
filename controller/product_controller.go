@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/emanueldias01/ProductsCleanArch/model"
 	"github.com/emanueldias01/ProductsCleanArch/usecase"
@@ -41,4 +42,26 @@ func (c *ProductController) CreateProduct(ctx *gin.Context){
 	}
 
 	ctx.JSON(http.StatusCreated, model)
+}
+
+func (c *ProductController) GetProductById(ctx *gin.Context){
+	id, err := strconv.Atoi(ctx.Params.ByName("id"))
+
+	if err != nil{
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message" : err,
+		})
+		return
+	}
+
+	product, err := c.usecase.GetProductById(id)
+
+	if err != nil{
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"Message" : err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, product)
 }

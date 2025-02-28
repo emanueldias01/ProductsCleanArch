@@ -15,7 +15,7 @@ func NewProductRepository(c *gorm.DB) ProductRepository{
 	}
 }
 
-func(r *ProductRepository) GetProducts() []model.Product{
+func (r *ProductRepository) GetProducts() []model.Product{
 	var products []model.Product
 	r.conn.Find(&products)
 	return products
@@ -23,5 +23,11 @@ func(r *ProductRepository) GetProducts() []model.Product{
 
 func (r *ProductRepository) CreateProduct(product model.Product) model.Product{
 	r.conn.Save(&product)
+	return product
+}
+
+func (r *ProductRepository) FindProductById(id int) model.Product{
+	var product model.Product
+	r.conn.First(&product, id)
 	return product
 }

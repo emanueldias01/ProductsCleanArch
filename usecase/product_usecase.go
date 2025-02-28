@@ -35,3 +35,13 @@ func (u *ProductUseCase) CreateProduct(product model.Product) (model.Product, er
 
 	return u.repository.CreateProduct(product), err
 }
+
+func (u *ProductUseCase) GetProductById(id int) (model.Product, error){
+	product := u.repository.FindProductById(id)
+	var err error
+	if product.Name == ""{
+		err = errors.New("product not found")
+	}
+
+	return product, err
+}
