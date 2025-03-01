@@ -124,3 +124,34 @@ func (c *ProductController) SellProduct(ctx *gin.Context){
 
 	ctx.JSON(http.StatusOK, model)
 }
+
+func (c * ProductController) SellOnScale(ctx *gin.Context){
+	id, err := strconv.Atoi(ctx.Params.ByName("id"))
+
+	if err != nil{
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message" : err.Error(),
+		})
+		return
+	}
+
+	quantity, err := strconv.Atoi(ctx.Params.ByName("quantity"))
+
+	if err != nil{
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message" : err.Error(),
+		})
+		return
+	}
+
+	model, err := c.usecase.SellOnScale(id, quantity)
+
+	if err != nil{
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"Message" : err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model)
+}

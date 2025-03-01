@@ -97,3 +97,24 @@ func (u *ProductUseCase) SellProduct(id int) (model.Product, error){
 	product.Quantity--
 	return u.UpdateProduct(product)
 }
+
+func (u *ProductUseCase) SellOnScale(id int, quantity int) (model.Product, error){
+	product, err := u.GetProductById(id)
+
+	if err != nil{
+		return model.Product{}, err
+	}
+
+	if product.Quantity < quantity{
+		return model.Product{}, errors.New("not enough products")
+	}
+
+	if product.Quantity == quantity{
+		u.DeleteProduct(id)
+		return product, nil
+	}
+
+	product.Quantity -= quantity
+	u.UpdateProduct(product)
+	return product, nil
+}
